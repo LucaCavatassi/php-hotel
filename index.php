@@ -39,12 +39,15 @@ $hotels = [
 
 ];
 
-// FILTERED BY PARK LIST
-
+// FILTERED ARRAYS
 $filteredParkingArray = [];
 $selectedVoteArray = [];
 
 
+// *************FILTERS*************************
+// FILTERED BY PARK LIST
+// SELECT OPTION 
+$selected = $_GET["park_av"] ?? "Nessuna Selezione"; // PARKING
 
 foreach ($hotels as $cur_hotel) {
     if ($cur_hotel["parking"] == true) {
@@ -52,20 +55,18 @@ foreach ($hotels as $cur_hotel) {
     }
 }
 
-// FILTERED BY PARK LIST
-// SELECT OPTION 
-$selected = $_GET["park_av"] ?? "Nessuna Selezione"; // PARKING
+// FILTERED BY VOTE
+// SELECTED OPTION
 $selected_vote = $_GET["vote_filter"] ?? "Nessuna Selezione"; // VOTE
 
-var_dump($selected_vote);
-
+// IF VALORE SELZIONATO = X PUSHA TUTTI QUELLI CHE HANNO VOTO MAGGIORE UGUALE A X IN UN ARRAY
 if ($selected_vote === "1") {
     foreach ($hotels as $cur_hotel) {
         if ($cur_hotel["vote"] >= 1) {
             $selectedVoteArray[] = $cur_hotel;
         }
     }
-    var_dump($selectedVoteArray);
+    // var_dump($selectedVoteArray);
 
 } else if ($selected_vote === "2") {
     foreach ($hotels as $cur_hotel) {
@@ -73,7 +74,7 @@ if ($selected_vote === "1") {
             $selectedVoteArray[] = $cur_hotel;
         }
     }
-    var_dump($selectedVoteArray);
+    // var_dump($selectedVoteArray);
 
 } else if ($selected_vote === "3") {
     foreach ($hotels as $cur_hotel) {
@@ -81,7 +82,7 @@ if ($selected_vote === "1") {
             $selectedVoteArray[] = $cur_hotel;
         }
     }
-    var_dump($selectedVoteArray);
+    // var_dump($selectedVoteArray);
 
 } else if ($selected_vote === "4") {
     foreach ($hotels as $cur_hotel) {
@@ -89,7 +90,7 @@ if ($selected_vote === "1") {
             $selectedVoteArray[] = $cur_hotel;
         }
     }
-    var_dump($selectedVoteArray);
+    // var_dump($selectedVoteArray);
 
 } else if ($selected_vote === "5") {
     foreach ($hotels as $cur_hotel) {
@@ -97,24 +98,14 @@ if ($selected_vote === "1") {
             $selectedVoteArray[] = $cur_hotel;
         }
     }
-    var_dump($selectedVoteArray);
+    // var_dump($selectedVoteArray);
 
 }
-// foreach ($hotels as $cur_hotel) { 
-//     if ($cur_hotel["vote"] == true) {
-//         $filteredParkingArray[] = $cur_hotel;
-//     }
-// }
-// echo $selected;
-
-// if ($selected === "si") {
-//     echo "<h1> Soluzioni con parcheggio </h1>";
-// } else {
-//     echo "<h1> Tutte le soluzioni </h1>";
-// };
-
 
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -130,7 +121,7 @@ if ($selected_vote === "1") {
             <option value="si">Si</option>
             <option value="no">No</option>
         </select>
-        <button type="submit">Filtra</button>
+
 
         <label for="vote">Filtra per voto</label>
         <select name="vote_filter" id="vote">
@@ -146,8 +137,8 @@ if ($selected_vote === "1") {
 
 
 <!-- FILTERED -->
-    <?php if ($selected === "si") {
-        foreach ($filteredParkingArray as $cur_hotel) {
+    <?php if ($selected === "si" || count($selectedVoteArray) > 0 ) {
+        foreach ($selectedVoteArray as $cur_hotel) {
 
         // TRANSFORM BOOLEAN IN STRINGA
         if ($cur_hotel["parking"] === true) {
@@ -165,7 +156,7 @@ if ($selected_vote === "1") {
             <span>Parcheggio - <?php echo $cur_hotel["parking"] ?></span><br>
             <span>Distanza dal Centro - <?php echo $cur_hotel["distance_to_center"] ?> km</span>
         <!-- /LAYOUT -->
-
+        
 <!-- /FILTERED -->
 
 <!-- FULL -->
