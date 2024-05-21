@@ -42,6 +42,9 @@ $hotels = [
 // FILTERED BY PARK LIST
 
 $filteredParkingArray = [];
+$selectedVoteArray = [];
+
+
 
 foreach ($hotels as $cur_hotel) {
     if ($cur_hotel["parking"] == true) {
@@ -50,17 +53,65 @@ foreach ($hotels as $cur_hotel) {
 }
 
 // FILTERED BY PARK LIST
-
 // SELECT OPTION 
-$selected = $_GET["park_av"] ?? "Nessuna Selezione";
+$selected = $_GET["park_av"] ?? "Nessuna Selezione"; // PARKING
+$selected_vote = $_GET["vote_filter"] ?? "Nessuna Selezione"; // VOTE
 
+var_dump($selected_vote);
+
+if ($selected_vote === "1") {
+    foreach ($hotels as $cur_hotel) {
+        if ($cur_hotel["vote"] >= 1) {
+            $selectedVoteArray[] = $cur_hotel;
+        }
+    }
+    var_dump($selectedVoteArray);
+
+} else if ($selected_vote === "2") {
+    foreach ($hotels as $cur_hotel) {
+        if ($cur_hotel["vote"] >= 2) {
+            $selectedVoteArray[] = $cur_hotel;
+        }
+    }
+    var_dump($selectedVoteArray);
+
+} else if ($selected_vote === "3") {
+    foreach ($hotels as $cur_hotel) {
+        if ($cur_hotel["vote"] >= 3) {
+            $selectedVoteArray[] = $cur_hotel;
+        }
+    }
+    var_dump($selectedVoteArray);
+
+} else if ($selected_vote === "4") {
+    foreach ($hotels as $cur_hotel) {
+        if ($cur_hotel["vote"] >= 4) {
+            $selectedVoteArray[] = $cur_hotel;
+        }
+    }
+    var_dump($selectedVoteArray);
+
+} else if ($selected_vote === "5") {
+    foreach ($hotels as $cur_hotel) {
+        if ($cur_hotel["vote"] >= 5) {
+            $selectedVoteArray[] = $cur_hotel;
+        }
+    }
+    var_dump($selectedVoteArray);
+
+}
+// foreach ($hotels as $cur_hotel) { 
+//     if ($cur_hotel["vote"] == true) {
+//         $filteredParkingArray[] = $cur_hotel;
+//     }
+// }
 // echo $selected;
 
-if ($selected === "si") {
-    echo "<h1> Soluzioni con parcheggio </h1>";
-} else {
-    echo "<h1> Tutte le soluzioni </h1>";
-};
+// if ($selected === "si") {
+//     echo "<h1> Soluzioni con parcheggio </h1>";
+// } else {
+//     echo "<h1> Tutte le soluzioni </h1>";
+// };
 
 
 ?>
@@ -73,11 +124,22 @@ if ($selected === "si") {
 </head>
 <body>
     <form action="index.php" method="GET">
-        <label for="parking">Con parcheggio</label>
+        <label for="parking">Vuoi il parcheggio?</label>
         <select name="park_av" id="parking">
             <option value="" disabled selected>Seleziona un'opzione</option>
             <option value="si">Si</option>
             <option value="no">No</option>
+        </select>
+        <button type="submit">Filtra</button>
+
+        <label for="vote">Filtra per voto</label>
+        <select name="vote_filter" id="vote">
+            <option value="" disabled selected>Seleziona un'opzione</option>
+            <option value="1">1 Stella</option>
+            <option value="2">2 Stelle</option>
+            <option value="3">3 Stelle</option>
+            <option value="4">4 Stelle</option>
+            <option value="5">5 Stelle</option>
         </select>
         <button type="submit">Filtra</button>
     </form>
