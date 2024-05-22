@@ -40,18 +40,20 @@ $hotels = [
 ];
 
 // FILTERED ARRAYS
-$filteredParkingArray = [];
 $selectedVoteArray = [];
 
 
+$filteredParkingArray = $hotels;
 // *************FILTERS*************************
 // FILTERED BY PARK LIST
 // SELECT OPTION 
 $selected = $_GET["park_av"] ?? "Nessuna Selezione"; // PARKING
-
-foreach ($hotels as $cur_hotel) {
-    if ($cur_hotel["parking"] == true) {
-        $filteredParkingArray[] = $cur_hotel;
+if ($selected === "si") {
+    $filteredParkingArray = [];
+    foreach ($hotels as $cur_hotel) {
+        if ($cur_hotel["parking"]) {
+            $filteredParkingArray[] = $cur_hotel;
+        }
     }
 }
 
@@ -111,6 +113,7 @@ if ($selected_vote === "1") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotels</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
     <form action="index.php" method="GET">
@@ -136,28 +139,18 @@ if ($selected_vote === "1") {
 
 
 <!-- FILTERED -->
-    <?php if ($selected === "si" || count($selectedVoteArray) > 0 ) {
-        foreach ($selectedVoteArray as $cur_hotel) {?>
+    <?php foreach ($filteredParkingArray as $cur_hotel) {?>
         <!-- LAYOUT --> 
             <h3><?php echo $cur_hotel["name"] ?></h3>
             <span>Descrizione - <?php echo $cur_hotel["description"] ?></span><br>
             <span>Voto -  <?php echo $cur_hotel["vote"] ?></span><br>
-            <span>Parcheggio - <?php echo $cur_hotel["parking"] ? "si" : "no" ?></span><br>
+            <span>Parcheggio - <?php echo $cur_hotel["parking"] ? "Si" : "No" ?></span><br>
             <span>Distanza dal Centro - <?php echo $cur_hotel["distance_to_center"] ?> km</span>
         <!-- /LAYOUT -->
 <!-- /FILTERED -->
-
-<!-- FULL -->
-    <?php }}  else { foreach ($hotels as $cur_hotel) {?>    
-        <!-- LAYOUT -->
-            <h3><?php echo $cur_hotel["name"] ?></h3>
-            <span>Descrizione - <?php echo $cur_hotel["description"] ?></span><br>
-            <span>Voto -  <?php echo $cur_hotel["vote"] ?></span><br>
-            <span>Parcheggio - <?php echo $cur_hotel["parking"] ? "si" : "no" ?></span><br>
-            <span>Distanza dal Centro - <?php echo $cur_hotel["distance_to_center"] ?> km</span>
-        <!-- /LAYOUT -->
-    <?php }}?>
+    <?php }?>
 <!-- /FULL -->
+
 
 </body>
 </html>
