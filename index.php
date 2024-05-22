@@ -99,7 +99,6 @@ if ($selected_vote === "1") {
         }
     }
     // var_dump($selectedVoteArray);
-
 }
 
 ?>
@@ -138,46 +137,23 @@ if ($selected_vote === "1") {
 
 <!-- FILTERED -->
     <?php if ($selected === "si" || count($selectedVoteArray) > 0 ) {
-        foreach ($selectedVoteArray as $cur_hotel) {
-
-        // TRANSFORM BOOLEAN IN STRINGA
-        if ($cur_hotel["parking"] === true) {
-            $cur_hotel["parking"] = "Si";
-        } else {
-            $cur_hotel["parking"] = "No";
-        };
-        // TRANSFORM BOOLEAN IN STRINGA
-        ?>
-        
+        foreach ($selectedVoteArray as $cur_hotel) {?>
         <!-- LAYOUT --> 
             <h3><?php echo $cur_hotel["name"] ?></h3>
             <span>Descrizione - <?php echo $cur_hotel["description"] ?></span><br>
             <span>Voto -  <?php echo $cur_hotel["vote"] ?></span><br>
-            <span>Parcheggio - <?php echo $cur_hotel["parking"] ?></span><br>
+            <span>Parcheggio - <?php echo $cur_hotel["parking"] ? "si" : "no" ?></span><br>
             <span>Distanza dal Centro - <?php echo $cur_hotel["distance_to_center"] ?> km</span>
         <!-- /LAYOUT -->
-        
 <!-- /FILTERED -->
 
 <!-- FULL -->
-    <?php }}  else {
-        foreach ($hotels as $cur_hotel) {
-
-        // TRANSFORM BOOLEAN IN STRINGA
-            if ($cur_hotel["parking"] === true) {
-                $cur_hotel["parking"] = "Si";
-            } else {
-                $cur_hotel["parking"] = "No";
-            };
-        // TRANSFORM BOOLEAN IN STRINGA
-        ?>    
-
-
+    <?php }}  else { foreach ($hotels as $cur_hotel) {?>    
         <!-- LAYOUT -->
             <h3><?php echo $cur_hotel["name"] ?></h3>
             <span>Descrizione - <?php echo $cur_hotel["description"] ?></span><br>
             <span>Voto -  <?php echo $cur_hotel["vote"] ?></span><br>
-            <span>Parcheggio - <?php echo $cur_hotel["parking"] ?></span><br>
+            <span>Parcheggio - <?php echo $cur_hotel["parking"] ? "si" : "no" ?></span><br>
             <span>Distanza dal Centro - <?php echo $cur_hotel["distance_to_center"] ?> km</span>
         <!-- /LAYOUT -->
     <?php }}?>
