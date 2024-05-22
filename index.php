@@ -1,4 +1,5 @@
 <?php
+// MAIN ARRAY
 $hotels = [
 
     [
@@ -40,68 +41,30 @@ $hotels = [
 ];
 
 // FILTERED ARRAYS
-$selectedVoteArray = [];
+$filteredArray = $hotels;
 
 
-$filteredParkingArray = $hotels;
-// *************FILTERS*************************
-// FILTERED BY PARK LIST
-// SELECT OPTION 
-$selected = $_GET["park_av"] ?? "Nessuna Selezione"; // PARKING
-if ($selected === "si") {
-    $filteredParkingArray = [];
-    foreach ($hotels as $cur_hotel) {
+// *************FILTER PARK*************************
+if (isset($_GET["park_av"]) && $_GET["park_av"] === "si" ){
+    $tmp_hotels = [];
+    foreach ($filteredArray as $cur_hotel) {
         if ($cur_hotel["parking"]) {
-            $filteredParkingArray[] = $cur_hotel;
+            $tmp_hotels[] = $cur_hotel;
         }
     }
+    $filteredArray = $tmp_hotels;
 }
-
-// FILTERED BY VOTE
-// SELECTED OPTION
-$selected_vote = $_GET["vote_filter"] ?? "Nessuna Selezione"; // VOTE
-
-// IF VALORE SELZIONATO = X PUSHA TUTTI QUELLI CHE HANNO VOTO MAGGIORE UGUALE A X IN UN ARRAY
-if ($selected_vote === "1") {
-    foreach ($hotels as $cur_hotel) {
-        if ($cur_hotel["vote"] >= 1) {
-            $selectedVoteArray[] = $cur_hotel;
+// *************FILTER VOTE*************************
+if (isset($_GET["vote_filter"])) {
+    $selected_vote = intval($_GET["vote_filter"]);
+    $tmp_hotels = [];
+    foreach ($filteredArray as $cur_hotel) {
+        if ($cur_hotel["vote"] >= $selected_vote) {
+            $tmp_hotels[] = $cur_hotel;
         }
     }
-    // var_dump($selectedVoteArray);
-
-} else if ($selected_vote === "2") {
-    foreach ($hotels as $cur_hotel) {
-        if ($cur_hotel["vote"] >= 2) {
-            $selectedVoteArray[] = $cur_hotel;
-        }
-    }
-    // var_dump($selectedVoteArray);
-
-} else if ($selected_vote === "3") {
-    foreach ($hotels as $cur_hotel) {
-        if ($cur_hotel["vote"] >= 3) {
-            $selectedVoteArray[] = $cur_hotel;
-        }
-    }
-    // var_dump($selectedVoteArray);
-
-} else if ($selected_vote === "4") {
-    foreach ($hotels as $cur_hotel) {
-        if ($cur_hotel["vote"] >= 4) {
-            $selectedVoteArray[] = $cur_hotel;
-        }
-    }
-    // var_dump($selectedVoteArray);
-
-} else if ($selected_vote === "5") {
-    foreach ($hotels as $cur_hotel) {
-        if ($cur_hotel["vote"] >= 5) {
-            $selectedVoteArray[] = $cur_hotel;
-        }
-    }
-    // var_dump($selectedVoteArray);
-}
+    $filteredArray = $tmp_hotels;
+};
 
 ?>
 
@@ -117,14 +80,17 @@ if ($selected_vote === "1") {
 </head>
 <body>
     <form action="index.php" method="GET">
+
+        <!-- PARKING -->
         <label for="parking">Vuoi il parcheggio?</label>
         <select name="park_av" id="parking">
             <option value="" disabled selected>Seleziona un'opzione</option>
             <option value="si">Si</option>
             <option value="no">No</option>
         </select>
+        <!-- /PARKING -->
 
-
+        <!-- VOTE -->
         <label for="vote">Filtra per voto</label>
         <select name="vote_filter" id="vote">
             <option value="" disabled selected>Seleziona un'opzione</option>
@@ -134,22 +100,23 @@ if ($selected_vote === "1") {
             <option value="4">4 Stelle</option>
             <option value="5">5 Stelle</option>
         </select>
+        <!-- /VOTE -->
+
+        <!-- SUBMIT -->
         <button type="submit">Filtra</button>
+        <!-- /SUBMIT -->
     </form>
 
 
-<!-- FILTERED -->
-    <?php foreach ($filteredParkingArray as $cur_hotel) {?>
-        <!-- LAYOUT --> 
+<!-- LAYOUT -->
+    <?php foreach ($filteredArray as $cur_hotel) {?>
             <h3><?php echo $cur_hotel["name"] ?></h3>
             <span>Descrizione - <?php echo $cur_hotel["description"] ?></span><br>
             <span>Voto -  <?php echo $cur_hotel["vote"] ?></span><br>
             <span>Parcheggio - <?php echo $cur_hotel["parking"] ? "Si" : "No" ?></span><br>
             <span>Distanza dal Centro - <?php echo $cur_hotel["distance_to_center"] ?> km</span>
-        <!-- /LAYOUT -->
-<!-- /FILTERED -->
+<!-- /LAYOUT -->
     <?php }?>
-<!-- /FULL -->
 
 
 </body>
